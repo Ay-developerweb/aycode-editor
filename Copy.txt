@@ -1,0 +1,136 @@
+To create an HTML `<textarea>` that mimics some of the features of VS Code, like line numbering and border color when text is being written, you'll need a combination of HTML, CSS, and JavaScript. However, a `<textarea>` by itself doesn't natively support features like line numbering, so you'll need to use a styled `div` to emulate this behavior.
+
+Here's a basic implementation using HTML, CSS, and JavaScript:
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VS Code-like Textarea</title>
+  <style>
+    /* Container for textarea and line numbers */
+    .editor-container {
+      display: flex;
+      border: 1px solid #ddd;
+      font-family: monospace;
+    }
+
+    /* Line numbers */
+    .line-numbers {
+      background-color: #f0f0f0;
+      padding: 10px;
+      text-align: right;
+      color: #888;
+      user-select: none;
+      border-right: 1px solid #ddd;
+    }
+
+    /* Textarea */
+    .editor {
+      border: none;
+      resize: none;
+      outline: none;
+      width: 100%;
+      height: 400px;
+      padding: 10px;
+      line-height: 1.5em;
+      font-family: monospace;
+      font-size: 16px;
+    }
+
+    /* Textarea focus border color */
+    .editor:focus {
+      border: 1px solid #007ACC;
+    }
+
+  </style>
+</head>
+<body>
+
+<div class="editor-container">
+  <div class="line-numbers" id="line-numbers">1</div>
+  <textarea class="editor" id="editor" oninput="updateLineNumbers()"></textarea>
+</div>
+
+<script>
+  // Function to update the line numbers as the user types
+  function updateLineNumbers() {
+    const editor = document.getElementById('editor');
+    const lineNumbers = document.getElementById('line-numbers');
+
+    // Get the number of lines in the textarea
+    const lines = editor.value.split('\n').length;
+    let lineNumbersText = '';
+
+    // Create line numbers for each line
+    for (let i = 1; i <= lines; i++) {
+      lineNumbersText += i + '\n';
+    }
+
+    // Update the line numbers div
+    lineNumbers.innerText = lineNumbersText;
+  }
+</script>
+
+</body>
+</html>
+```
+
+### Features:
+1. **Line Numbers:** The `div` with class `.line-numbers` automatically updates to reflect the number of lines in the textarea.
+2. **Focus Border:** When the user focuses on the textarea, the border color changes to a blue-like color (`#007ACC`), similar to VS Code.
+3. **Monospace Font:** The text is displayed using a monospace font, which is common in text editors.
+
+### How It Works:
+- **Line Number Calculation:** Every time text is added to the textarea, the `updateLineNumbers()` function splits the text into lines and updates the line numbers dynamically.
+- **Styling:** The container for the textarea and the line numbers is displayed as a flexbox. The `line-numbers` div remains fixed-width and aligned to the left.
+
+If you'd like to add more VS Code-like features such as syntax highlighting or autocompletion, you might need to integrate third-party libraries like [CodeMirror](https://codemirror.net/) or [Monaco Editor](https://microsoft.github.io/monaco-editor/), which are built to simulate full IDE features.
+
+
+
+
+
+
+
+
+
+
+
+.line-numbers {
+    background-color: #f0f0f0;
+    padding: 10px;
+    text-align: center; /* Center the text horizontally */
+    color: #888;
+    user-select: none;
+    border-right: 1px solid #ddd;
+    width: 40px; /* Set a fixed width to prevent expansion */
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start; /* Align to the top */
+    overflow-y: auto; /* Enable scrolling */
+    white-space: nowrap; /* Prevent the numbers from wrapping */
+}
+
+.Editor textarea {
+    width: 100%;
+    border: none;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: #f9f9f9;
+    font-family: monospace;
+    margin: 0;
+    padding: 10px;
+    resize: none;
+    outline: none;
+    font-size: 14px;
+    line-height: 1.5em; /* Make sure the line-height is constant */
+}
+
+.Editor {
+    height: 85vh;
+    background-color: #000000a1;
+    display: flex;
+}
